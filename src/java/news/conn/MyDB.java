@@ -14,14 +14,14 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Oops
+ * @author shuxiao
  */
 public class MyDB {
-    Connection con;
-    public Connection getCon(){
+    public static Connection con;
+    public static Connection getCon(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/itemd523","root","jack1991");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/itmd523","root","jack1991");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MyDB.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);

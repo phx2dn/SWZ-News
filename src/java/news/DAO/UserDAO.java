@@ -5,11 +5,7 @@
  */
 package news.DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import news.bean.User;
@@ -23,13 +19,16 @@ public class UserDAO {
         connection = MyDB.getCon();
     }
 
-    public void addUser(User user) {
+
+    public void addUser(String username, String password) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into users(username,password) values (?, ?)");
+                    .prepareStatement("insert into users(username,password,authority) values (?,?,?)");
             // Parameters start with 1
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, "user");
+            //missing pictures
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -58,7 +57,7 @@ public class UserDAO {
             // Parameters start with 1
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setInt(3, user.getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -74,8 +73,9 @@ public class UserDAO {
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("firstname"));
-                user.setPassword(rs.getString("lastname"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setAuthority(rs.getString("authority"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -103,5 +103,24 @@ public class UserDAO {
         }
 
         return user;
+    }
+    
+    public int getIdByUsername(String username) {
+        int id = 0;
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select id from users where username=?");
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+        
     }
 }

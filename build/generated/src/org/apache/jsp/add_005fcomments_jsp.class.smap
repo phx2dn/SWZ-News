@@ -1,0 +1,14 @@
+SMAP
+add_005fcomments_jsp.java
+JSP
+*S JSP
+*F
++ 0 add_comments.jsp
+add_comments.jsp
+*L
+5,14:47
+19,10:62
+28,5:72
+33:77,3
+34,4:80
+*E

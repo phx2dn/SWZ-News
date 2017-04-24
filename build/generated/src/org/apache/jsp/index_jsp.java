@@ -3,54 +3,32 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import java.sql.*;
+import news.DAO.NewsDAO;
 
 public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
-
-            public class News {
-               String URL = "jdbc:mysql://localhost:3306/itmd523";
-               String USERNAME = "root";
-               String PASSWORD = "password";
-
-               Connection connection = null;
-               PreparedStatement selectNews = null;
-               ResultSet resultSet = null;
-               
-               public News() {
-               
-                     try {
-                         connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-                         selectNews = connection.prepareStatement(
-                           "SELECT title FROM news where id =?");
-
-                     } catch (SQLException e){
-                         e.printStackTrace();
-                     }
-
-               }
-
-               public ResultSet getNews(String id) {
-                
-                   try {
-                       selectNews.setString(1,id);
-                       resultSet = selectNews.executeQuery();
-                   } catch (SQLException e){
-                         e.printStackTrace();
-                   }
-               return resultSet;
-               }
-            }
-        
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
 
   private static java.util.List<String> _jspx_dependants;
+
+  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_c_forEach_var_items;
+  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_c_out_value_nobody;
 
   private org.glassfish.jsp.api.ResourceInjector _jspx_resourceInjector;
 
   public java.util.List<String> getDependants() {
     return _jspx_dependants;
+  }
+
+  public void _jspInit() {
+    _jspx_tagPool_c_forEach_var_items = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
+    _jspx_tagPool_c_out_value_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
+  }
+
+  public void _jspDestroy() {
+    _jspx_tagPool_c_forEach_var_items.release();
+    _jspx_tagPool_c_out_value_nobody.release();
   }
 
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
@@ -77,11 +55,10 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write('\n');
- Class.forName("com.mysql.jdbc.Driver"); 
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write(" \n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html lang=\"en\">\n");
       out.write("\n");
@@ -111,13 +88,6 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("</head>\n");
       out.write("\n");
       out.write("<body>\n");
-      out.write("    ");
-      out.write("\n");
-      out.write("        ");
-
-            News ns = new News();
-            ResultSet news = ns.getNews(id);
-        
       out.write("\n");
       out.write("    <!-- Navigation -->\n");
       out.write("    <nav class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n");
@@ -163,54 +133,30 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    Today's News\n");
       out.write("                    <small>Secondary Text</small>\n");
       out.write("                </h1>\n");
+      out.write("                \n");
+      out.write("                <form action = \"search.jsp\">\n");
+      out.write("                    <div class=\"input-group\">\n");
+      out.write("                        <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n");
+      out.write("                        <span class=\"input-group-btn\">\n");
+      out.write("                            <button class=\"btn btn-default\" type=\"submit\">\n");
+      out.write("                                <span class=\"glyphicon glyphicon-search\"></span>\n");
+      out.write("                        </button>\n");
+      out.write("                        </span>\n");
+      out.write("                    </div>\n");
+      out.write("                    <!-- /.input-group -->\n");
+      out.write("                </form>\n");
+      out.write("                <br>\n");
+      out.write("                ");
+
+                    NewsDAO dao = new NewsDAO();
+                    request.setAttribute("ns", dao.getAllNews());
+                
       out.write("\n");
-      out.write("                <!-- First Blog Post -->\n");
-      out.write("                <h2>\n");
-      out.write("                    ");
-      out.print(news.getString("title"));
+      out.write("                <!-- Blog Post -->\n");
+      out.write("                ");
+      if (_jspx_meth_c_forEach_0(_jspx_page_context))
+        return;
       out.write("\n");
-      out.write("                </h2>\n");
-      out.write("                <p class=\"lead\">\n");
-      out.write("                    by <a href=\"index.php\">Start Bootstrap</a>\n");
-      out.write("                </p>\n");
-      out.write("                <p><span class=\"glyphicon glyphicon-time\"></span> Posted on August 28, 2013 at 10:00 PM</p>\n");
-      out.write("                <hr>\n");
-      out.write("                <img class=\"img-responsive\" src=\"http://placehold.it/900x300\" alt=\"\">\n");
-      out.write("                <hr>\n");
-      out.write("                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum officiis rerum.</p>\n");
-      out.write("                <a class=\"btn btn-primary\" href=\"#\">Read More <span class=\"glyphicon glyphicon-chevron-right\"></span></a>\n");
-      out.write("\n");
-      out.write("                <hr>\n");
-      out.write("\n");
-      out.write("                <!-- Second Blog Post -->\n");
-      out.write("                <h2>\n");
-      out.write("                    <a href=\"#\">Blog Post Title</a>\n");
-      out.write("                </h2>\n");
-      out.write("                <p class=\"lead\">\n");
-      out.write("                    by <a href=\"index.php\">Start Bootstrap</a>\n");
-      out.write("                </p>\n");
-      out.write("                <p><span class=\"glyphicon glyphicon-time\"></span> Posted on August 28, 2013 at 10:45 PM</p>\n");
-      out.write("                <hr>\n");
-      out.write("                <img class=\"img-responsive\" src=\"http://placehold.it/900x300\" alt=\"\">\n");
-      out.write("                <hr>\n");
-      out.write("                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, quasi, fugiat, asperiores harum voluptatum tenetur a possimus nesciunt quod accusamus saepe tempora ipsam distinctio minima dolorum perferendis labore impedit voluptates!</p>\n");
-      out.write("                <a class=\"btn btn-primary\" href=\"#\">Read More <span class=\"glyphicon glyphicon-chevron-right\"></span></a>\n");
-      out.write("\n");
-      out.write("                <hr>\n");
-      out.write("\n");
-      out.write("                <!-- Third Blog Post -->\n");
-      out.write("                <h2>\n");
-      out.write("                    <a href=\"#\">Blog Post Title</a>\n");
-      out.write("                </h2>\n");
-      out.write("                <p class=\"lead\">\n");
-      out.write("                    by <a href=\"index.php\">Start Bootstrap</a>\n");
-      out.write("                </p>\n");
-      out.write("                <p><span class=\"glyphicon glyphicon-time\"></span> Posted on August 28, 2013 at 10:45 PM</p>\n");
-      out.write("                <hr>\n");
-      out.write("                <img class=\"img-responsive\" src=\"http://placehold.it/900x300\" alt=\"\">\n");
-      out.write("                <hr>\n");
-      out.write("                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, voluptates, voluptas dolore ipsam cumque quam veniam accusantium laudantium adipisci architecto itaque dicta aperiam maiores provident id incidunt autem. Magni, ratione.</p>\n");
-      out.write("                <a class=\"btn btn-primary\" href=\"#\">Read More <span class=\"glyphicon glyphicon-chevron-right\"></span></a>\n");
       out.write("\n");
       out.write("                <hr>\n");
       out.write("\n");
@@ -229,59 +175,21 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <!-- Blog Sidebar Widgets Column -->\n");
       out.write("            <div class=\"col-md-4\">\n");
       out.write("\n");
-      out.write("                <!-- Blog Search Well -->\n");
-      out.write("                <div class=\"well\">\n");
-      out.write("                    <h4>Blog Search</h4>\n");
-      out.write("                    <div class=\"input-group\">\n");
-      out.write("                        <input type=\"text\" class=\"form-control\">\n");
-      out.write("                        <span class=\"input-group-btn\">\n");
-      out.write("                            <button class=\"btn btn-default\" type=\"button\">\n");
-      out.write("                                <span class=\"glyphicon glyphicon-search\"></span>\n");
-      out.write("                        </button>\n");
-      out.write("                        </span>\n");
-      out.write("                    </div>\n");
-      out.write("                    <!-- /.input-group -->\n");
-      out.write("                </div>\n");
+      out.write("          \n");
       out.write("\n");
       out.write("                <!-- Blog Categories Well -->\n");
-      out.write("                <div class=\"well\">\n");
-      out.write("                    <h4>Blog Categories</h4>\n");
-      out.write("                    <div class=\"row\">\n");
-      out.write("                        <div class=\"col-lg-6\">\n");
-      out.write("                            <ul class=\"list-unstyled\">\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                            </ul>\n");
-      out.write("                        </div>\n");
-      out.write("                        <!-- /.col-lg-6 -->\n");
-      out.write("                        <div class=\"col-lg-6\">\n");
-      out.write("                            <ul class=\"list-unstyled\">\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                                <li><a href=\"#\">Category Name</a>\n");
-      out.write("                                </li>\n");
-      out.write("                            </ul>\n");
-      out.write("                        </div>\n");
-      out.write("                        <!-- /.col-lg-6 -->\n");
-      out.write("                    </div>\n");
-      out.write("                    <!-- /.row -->\n");
-      out.write("                </div>\n");
+      out.write("                <a href=\"https://www.accuweather.com/en/us/chicago-il/60608/weather-forecast/348308\" class=\"aw-widget-legal\">\n");
+      out.write("<!--\n");
+      out.write("By accessing and/or using this code snippet, you agree to AccuWeather’s terms and conditions (in English) which can be found at https://www.accuweather.com/en/free-weather-widgets/terms and AccuWeather’s Privacy Statement (in English) which can be found at https://www.accuweather.com/en/privacy.\n");
+      out.write("-->\n");
       out.write("\n");
+      out.write("                \n");
       out.write("                <!-- Side Widget Well -->\n");
       out.write("                <div class=\"well\">\n");
       out.write("                    <h4>Side Widget Well</h4>\n");
       out.write("                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>\n");
       out.write("                </div>\n");
+      out.write("                <div style=\"width: 300px; margin-left: 30px;\"><iframe style=\"display: block;\" src=\"//cdnres.willyweather.com/widget/loadView.html?id=64454\" width=\"300\" height=\"228\" frameborder=\"0\" scrolling=\"no\"></iframe><a style=\"margin: -20px 0 0 0;display: block;position: relative;height: 20px;z-index: 1;text-indent: -9999em\" href=\"http://www.willyweather.com/il/cook-county/chicago.html\" rel=\"nofollow\">chicago forecasts</a></div>\n");
       out.write("\n");
       out.write("            </div>\n");
       out.write("\n");
@@ -294,7 +202,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <footer>\n");
       out.write("            <div class=\"row\">\n");
       out.write("                <div class=\"col-lg-12\">\n");
-      out.write("                    <p>Copyright &copy; Your Website 2014</p>\n");
+      out.write("                    <p>SWX News @2017</p>\n");
       out.write("                </div>\n");
       out.write("                <!-- /.col-lg-12 -->\n");
       out.write("            </div>\n");
@@ -312,7 +220,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("</body>\n");
       out.write("\n");
-      out.write("</html>\n");
+      out.write("</html>");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){
         out = _jspx_out;
@@ -324,5 +232,120 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     } finally {
       _jspxFactory.releasePageContext(_jspx_page_context);
     }
+  }
+
+  private boolean _jspx_meth_c_forEach_0(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:forEach
+    org.apache.taglibs.standard.tag.rt.core.ForEachTag _jspx_th_c_forEach_0 = (org.apache.taglibs.standard.tag.rt.core.ForEachTag) _jspx_tagPool_c_forEach_var_items.get(org.apache.taglibs.standard.tag.rt.core.ForEachTag.class);
+    _jspx_th_c_forEach_0.setPageContext(_jspx_page_context);
+    _jspx_th_c_forEach_0.setParent(null);
+    _jspx_th_c_forEach_0.setItems((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ns}", java.lang.Object.class, (PageContext)_jspx_page_context, null));
+    _jspx_th_c_forEach_0.setVar("news");
+    int[] _jspx_push_body_count_c_forEach_0 = new int[] { 0 };
+    try {
+      int _jspx_eval_c_forEach_0 = _jspx_th_c_forEach_0.doStartTag();
+      if (_jspx_eval_c_forEach_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
+        do {
+          out.write("\n");
+          out.write("                <div style=\"display: left;width:202px; height:75px\">\n");
+          out.write("                    <a href=\"news.jsp\"><img class=\"img-responsive\" src=\"http://placehold.it/300x300\" alt=\"\"></a>\n");
+          out.write("                </div>\n");
+          out.write("                <div style=\"\n");
+          out.write("                     margin-top: -90px;\n");
+          out.write("                     margin-left: 230px;\">\n");
+          out.write("                    <h3>\n");
+          out.write("                    <a href=\"news.jsp\">");
+          if (_jspx_meth_c_out_0((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
+            return true;
+          out.write("</a>\n");
+          out.write("                    </h3>\n");
+          out.write("                <p class=\"lead\">\n");
+          out.write("                    by <a href=\"news.jsp\">");
+          if (_jspx_meth_c_out_1((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
+            return true;
+          out.write("</a>\n");
+          out.write("                </p>\n");
+          out.write("                <p><span class=\"glyphicon glyphicon-time\"></span> Posted on August 28, 2013 at 10:00 PM</p>\n");
+          out.write("                <p><a href=\"news.jsp\">");
+          if (_jspx_meth_c_out_2((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
+            return true;
+          out.write("</a></p>\n");
+          out.write("                </div>\n");
+          out.write("                <hr>\n");
+          out.write("                ");
+          int evalDoAfterBody = _jspx_th_c_forEach_0.doAfterBody();
+          if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
+            break;
+        } while (true);
+      }
+      if (_jspx_th_c_forEach_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+        return true;
+      }
+    } catch (Throwable _jspx_exception) {
+      while (_jspx_push_body_count_c_forEach_0[0]-- > 0)
+        out = _jspx_page_context.popBody();
+      _jspx_th_c_forEach_0.doCatch(_jspx_exception);
+    } finally {
+      _jspx_th_c_forEach_0.doFinally();
+      _jspx_tagPool_c_forEach_var_items.reuse(_jspx_th_c_forEach_0);
+    }
+    return false;
+  }
+
+  private boolean _jspx_meth_c_out_0(javax.servlet.jsp.tagext.JspTag _jspx_th_c_forEach_0, PageContext _jspx_page_context, int[] _jspx_push_body_count_c_forEach_0)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:out
+    org.apache.taglibs.standard.tag.rt.core.OutTag _jspx_th_c_out_0 = (org.apache.taglibs.standard.tag.rt.core.OutTag) _jspx_tagPool_c_out_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.OutTag.class);
+    _jspx_th_c_out_0.setPageContext(_jspx_page_context);
+    _jspx_th_c_out_0.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_forEach_0);
+    _jspx_th_c_out_0.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${news.title}", java.lang.Object.class, (PageContext)_jspx_page_context, null));
+    int _jspx_eval_c_out_0 = _jspx_th_c_out_0.doStartTag();
+    if (_jspx_th_c_out_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_out_value_nobody.reuse(_jspx_th_c_out_0);
+      return true;
+    }
+    _jspx_tagPool_c_out_value_nobody.reuse(_jspx_th_c_out_0);
+    return false;
+  }
+
+  private boolean _jspx_meth_c_out_1(javax.servlet.jsp.tagext.JspTag _jspx_th_c_forEach_0, PageContext _jspx_page_context, int[] _jspx_push_body_count_c_forEach_0)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:out
+    org.apache.taglibs.standard.tag.rt.core.OutTag _jspx_th_c_out_1 = (org.apache.taglibs.standard.tag.rt.core.OutTag) _jspx_tagPool_c_out_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.OutTag.class);
+    _jspx_th_c_out_1.setPageContext(_jspx_page_context);
+    _jspx_th_c_out_1.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_forEach_0);
+    _jspx_th_c_out_1.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${news.author}", java.lang.Object.class, (PageContext)_jspx_page_context, null));
+    int _jspx_eval_c_out_1 = _jspx_th_c_out_1.doStartTag();
+    if (_jspx_th_c_out_1.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_out_value_nobody.reuse(_jspx_th_c_out_1);
+      return true;
+    }
+    _jspx_tagPool_c_out_value_nobody.reuse(_jspx_th_c_out_1);
+    return false;
+  }
+
+  private boolean _jspx_meth_c_out_2(javax.servlet.jsp.tagext.JspTag _jspx_th_c_forEach_0, PageContext _jspx_page_context, int[] _jspx_push_body_count_c_forEach_0)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:out
+    org.apache.taglibs.standard.tag.rt.core.OutTag _jspx_th_c_out_2 = (org.apache.taglibs.standard.tag.rt.core.OutTag) _jspx_tagPool_c_out_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.OutTag.class);
+    _jspx_th_c_out_2.setPageContext(_jspx_page_context);
+    _jspx_th_c_out_2.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_forEach_0);
+    _jspx_th_c_out_2.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${news.description}", java.lang.Object.class, (PageContext)_jspx_page_context, null));
+    int _jspx_eval_c_out_2 = _jspx_th_c_out_2.doStartTag();
+    if (_jspx_th_c_out_2.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_out_value_nobody.reuse(_jspx_th_c_out_2);
+      return true;
+    }
+    _jspx_tagPool_c_out_value_nobody.reuse(_jspx_th_c_out_2);
+    return false;
   }
 }

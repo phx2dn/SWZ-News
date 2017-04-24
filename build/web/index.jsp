@@ -1,3 +1,8 @@
+<%@page import="news.bean.News"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="news.DAO.NewsDAO"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +28,15 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script async="async" src="https://www.google.com/adsense/search/ads.js"></script>
+
+<!-- other head elements from your page -->
+
+<script type="text/javascript" charset="utf-8">
+(function(g,o){g[o]=g[o]||function(){(g[o]['q']=g[o]['q']||[]).push(
+  arguments)},g[o]['t']=1*new Date})(window,'_googCsa');
+</script>
+
 
 </head>
 
@@ -39,21 +53,30 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">SWZ News</a>
+                <a class="navbar-brand" href="index.jsp">SWZ News</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
+                        <a href="Sports.jsp">Sports</a>
                     </li>
                     <li>
-                        <a href="#">Services</a>
+                        <a href="Health.jsp">Health</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="Entertainment.jsp">Entertainment</a>
+                    </li>
+                    <li>
+                        <a href="Technology.jsp">Technology</a>
+                    </li>
+                    <li>
+                        <a href="Business.jsp">Business</a>
                     </li>
                 </ul>
+                <form action="login.jsp">
+                <button class="btn btn-sm btn-default" style="float:right; margin-top: 10px;">sign in</button>
+                </form>
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -70,126 +93,89 @@
 
                 <h1 class="page-header">
                     Today's News
-                    <small>Secondary Text</small>
                 </h1>
-
-                <!-- First Blog Post -->
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum officiis rerum.</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                <hr>
-
-                <!-- Second Blog Post -->
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:45 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, quasi, fugiat, asperiores harum voluptatum tenetur a possimus nesciunt quod accusamus saepe tempora ipsam distinctio minima dolorum perferendis labore impedit voluptates!</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                <hr>
-
-                <!-- Third Blog Post -->
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:45 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, voluptates, voluptas dolore ipsam cumque quam veniam accusantium laudantium adipisci architecto itaque dicta aperiam maiores provident id incidunt autem. Magni, ratione.</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                <hr>
-
-                <!-- Pager -->
-                <ul class="pager">
-                    <li class="previous">
-                        <a href="#">&larr; Older</a>
-                    </li>
-                    <li class="next">
-                        <a href="#">Newer &rarr;</a>
-                    </li>
-                </ul>
-
-            </div>
-
-            <!-- Blog Sidebar Widgets Column -->
-            <div class="col-md-4">
-
-                <!-- Blog Search Well -->
-                <div class="well">
-                    <h4>Blog Search</h4>
+                
+                <form action = "search.jsp">
                     <div class="input-group">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" placeholder="Search" name="search">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
+                            <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                         </button>
                         </span>
                     </div>
                     <!-- /.input-group -->
+                </form>
+                <br>
+                <%
+                    NewsDAO dao = new NewsDAO();
+                    request.setAttribute("ns", dao.getAllNews());
+                %>
+                
+                <!-- Blog Post -->
+                <c:forEach items="${ns}" var="news" varStatus="loop">
+                <div id ="news" style="display: left;width:202px; height:75px">
+                    <a href="news.jsp?value=<c:out value="${news.id}" />"><img class="img-responsive" src="image.jsp?imgid=<c:out value="${news.id}" />" alt=""></a>
+                                   
+                    
                 </div>
+                <div style="
+                     margin-top: -90px;
+                     margin-left: 230px;">
+                    <h3>
+                    <a href="news.jsp?value=<c:out value="${news.id}" />"><c:out value="${news.title}" /></a>
+                    </h3>
+                <p class="lead">
+                    by <a href="news.jsp?value=<c:out value="${news.id}" />"><c:out value="${news.author}" /></a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on <c:out value="${news.news_time}" /></p>
+                <p><a href="news.jsp?value=<c:out value="${news.id}" />"><c:out value="${news.description}" /></a></p>
+                </div>
+                <hr>
+                </c:forEach>
+                
+                
+                <hr>
+
+            
+            </div>
+
+            <!-- Blog Sidebar Widgets Column -->
+            <div class="col-md-4">
+
+          
 
                 <!-- Blog Categories Well -->
-                <div class="well">
-                    <h4>Blog Categories</h4>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.col-lg-6 -->
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.col-lg-6 -->
-                    </div>
-                    <!-- /.row -->
-                </div>
+                <a href="https://www.accuweather.com/en/us/chicago-il/60608/weather-forecast/348308" class="aw-widget-legal">
+<!--
+By accessing and/or using this code snippet, you agree to AccuWeather’s terms and conditions (in English) which can be found at https://www.accuweather.com/en/free-weather-widgets/terms and AccuWeather’s Privacy Statement (in English) which can be found at https://www.accuweather.com/en/privacy.
+-->
 
-                <!-- Side Widget Well -->
-                <div class="well">
-                    <h4>Side Widget Well</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-                </div>
+                
+                <!-- Weather widget -->
+                
+                <div style="width: 300px; margin-left: 30px; margin-top: 100px;"><iframe style="display: block;" src="//cdnres.willyweather.com/widget/loadView.html?id=64454" width="300" height="228" frameborder="0" scrolling="no"></iframe><a style="margin: -20px 0 0 0;display: block;position: relative;height: 20px;z-index: 1;text-indent: -9999em" href="http://www.willyweather.com/il/cook-county/chicago.html" rel="nofollow">chicago forecasts</a></div>
+                  
+                <!-- Google ads -->
+                <div id='afscontainer1' style="width: 300px; margin-left: 30px;"></div>
 
+                <script type="text/javascript" charset="utf-8">
+
+                    var pageOptions = {
+                      "pubId": "pub-9616389000213823", // Make sure this the correct client ID!
+                      "query": "sports",
+                      "adPage": 1
+                    };
+
+                    var adblock1 = {
+                      "container": "afscontainer1",
+                      "width": "300",
+                      "number": 2
+                    };
+
+                     _googCsa('ads', pageOptions, adblock1);
+
+                </script>
             </div>
 
         </div>
@@ -201,7 +187,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>SWX News @2017</p>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
